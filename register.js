@@ -4,11 +4,27 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { promisePool } = require("./database");
 const your_jwt_secret = "123";
-
+const zod=require("zod")
+// validate input
+function validate(obj){
+const schema=zod.object({
+    username:zod.string(),
+    password:zod.string().min(8)
+})
+return schema.safeParse(obj)
+}
 // Registration endpoint
 router.post("/register", async function(req, res) {
+    const response = validate(req.body);
+
+    if (!response.success) {
+        res.status(400).json({
+            msg: "Your input is invalid"
+        });
+        return;
+    }
     const user_id =Math.floor(Math.random()*1000);
-    const { username, password } = req.body; // Fix typo: pasword -> password
+    const { username, password } = req.body; 
     try {
         // Hash the password with a salt
         const hashPassword = await bcrypt.hash(password, 10); // 10 is the number of salt rounds
