@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { promisePool } = require('./database');
-const { updateOnTimeDeliveryRate,updateQualityRatingAvg,updateAverageResponseTime ,updateFulfillmentRate} = require('../performance/per');
+const { updateOnTimeDeliveryRate,updateQualityRatingAvg,updateAverageResponseTime ,updateFulfillmentRate} = require('./performance');
 const {authenticateJWT} =require("./verify");
 
 
